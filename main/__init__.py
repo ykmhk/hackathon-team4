@@ -6,7 +6,9 @@ from main.adapters.repository_populate import populate_repository
 from main.authentication import authentication_blueprint
 from main.home import home_blueprint
 from main.symptom_checker import symptom_checker
+from dotenv import load_dotenv
 
+load_dotenv()
 csrf = CSRFProtect()
 
 

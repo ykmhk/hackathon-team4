@@ -10,12 +10,11 @@ client = OpenAI(
 
 
 def analyse_symptoms(assessment):
-    """Send an assessment to the AI and return a structured result."""
 
     prompt = f"""
-You are a health information assistant.
+You are a cautious health information assistant.
 
-The user has reported the following:
+The user reported:
 
 Symptoms:
 {", ".join(assessment.symptoms)}
@@ -23,13 +22,13 @@ Symptoms:
 Duration:
 {assessment.duration}
 
-Symptoms changing:
+Progress:
 {assessment.progress}
 
-Experienced this before:
+Experienced before:
 {assessment.experienced_before}
 
-Relevant medical history:
+Medical history:
 {assessment.medical_history}
 
 Family history:
@@ -38,12 +37,10 @@ Family history:
 Additional information:
 {assessment.additional_information}
 
-Provide cautious health information.
-
 Do not provide a definitive diagnosis.
 
-Identify possible conditions or explanations that
-could be associated with the reported symptoms.
+Instead, provide possible explanations associated
+with the reported symptoms.
 
 Classify the recommended next step as exactly one of:
 
@@ -52,9 +49,9 @@ pharmacy
 doctor
 urgent
 
-Also provide warning signs and practical next steps.
+Also provide practical next steps and warning signs.
 
-Return ONLY valid JSON in this format:
+Return ONLY valid JSON using this structure:
 
 {{
     "possible_conditions": [
@@ -74,8 +71,14 @@ Return ONLY valid JSON in this format:
 """
 
     response = client.responses.create(
-        model="YOUR_MODEL_NAME",
+        model="gpt-6-luna",
         input=prompt
     )
 
-    return json.loads(response.output_text)
+    try:
+        return json.loads(response.output_text)
+
+    except json.JSONDecodeError:
+        raise ValueError(
+            "The AI returned an invalid response."
+        )

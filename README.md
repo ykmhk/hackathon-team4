@@ -22,12 +22,22 @@ This project is a neutral starter application scaffold. It keeps the Flask struc
 - Python 3
 - The packages listed in `requirements.txt`
 
-## Installation
+### Windows PowerShell
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+### macOS or Linux
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+cp .env.example .env
 ```
 
 ## Running the Application
