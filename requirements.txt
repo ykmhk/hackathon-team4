@@ -4,3 +4,4 @@ Werkzeug==3.1.3
 Flask-WTF
 password-validator
 python-dotenv
+openai

@@ -5,6 +5,7 @@ from main.adapters.memory_repository import MemoryRepository
 from main.adapters.repository_populate import populate_repository
 from main.authentication import authentication_blueprint
 from main.home import home_blueprint
+from main.symptom_checker import symptom_checker
 
 csrf = CSRFProtect()
 
@@ -29,4 +30,5 @@ def create_app(test_config=None):
     app.register_blueprint(home_blueprint)
     app.register_blueprint(items_blueprint)
     app.register_blueprint(authentication_blueprint)
+    app.register_blueprint(symptom_checker)
     return app
