@@ -25,7 +25,7 @@ class PasswordValid:
 
 
 class RegistrationForm(FlaskForm):
-    """Collect and validate details for a new Music Library account."""
+    """Collect and validate details for a new starter app account."""
 
     username = StringField(
         "Username",

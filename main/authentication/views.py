@@ -1,10 +1,10 @@
 """HTTP routes for user authentication."""
 
-
-from music.authentication import authentication_blueprint, services
-from music.authentication.forms import LoginForm, RegistrationForm
 from flask import current_app, flash, redirect, render_template, session, url_for
-from music.authentication.decorators import login_required
+
+from main.authentication import authentication_blueprint, services
+from main.authentication.decorators import login_required
+from main.authentication.forms import LoginForm, RegistrationForm
 
 
 

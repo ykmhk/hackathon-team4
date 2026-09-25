@@ -1,9 +1,9 @@
-"""Business rules for registering and authenticating Music Library users."""
+"""Business rules for registering and authenticating app users."""
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from music.adapters.repository import AbstractRepository
-from music.domainmodel.user import User
+from main.adapters.repository import AbstractRepository
+from main.domainmodel.user import User
 
 
 def register_user(

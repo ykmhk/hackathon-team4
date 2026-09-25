@@ -19,6 +19,6 @@ def _read_bool(name: str, default: bool = False) -> bool:
 class Config:
     """Configuration used when the application runs normally."""
 
-    SECRET_KEY = environ.get("SECRET_KEY")
-    WTF_CSRF_SECRET_KEY = environ.get("WTF_CSRF_SECRET_KEY")
+    SECRET_KEY = environ.get("SECRET_KEY", "dev-secret-key-change-me")
+    WTF_CSRF_SECRET_KEY = environ.get("WTF_CSRF_SECRET_KEY", "dev-csrf-secret-key-change-me")
     TESTING = _read_bool("TESTING")

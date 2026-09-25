@@ -10,5 +10,4 @@ authentication_blueprint = Blueprint(
 )
 
 
-# Import routes after creating the blueprint so view functions can register on it.
-from music.authentication import views
+from main.authentication import views
