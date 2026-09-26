@@ -8,10 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        {% block title %}Starter App{% endblock %}
+        {% block title %}AI Symptom Checker{% endblock %}
     </title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    {% block extra_css %}{% endblock %}
 
 </head>
 
@@ -37,7 +39,7 @@
 
 
     <footer class="site-footer">
-        <p>Starter app template</p>
+        <p>AI Symptom Checker · Helping you understand what to do next</p>
     </footer>
 
 
