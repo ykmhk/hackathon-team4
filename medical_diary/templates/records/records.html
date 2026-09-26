@@ -208,21 +208,30 @@
             const reminderOptions = document.querySelectorAll('input[name="reminder_type"]');
             const reminderDetails = document.getElementById("reminder-details");
             const reminderDatetime = document.getElementById("reminder_datetime");
+            const reminderNote = document.getElementById("reminder_note");
 
             function updateReminderFields() {
-                const selected = document.querySelector('input[name="reminder_type"]:checked');
+    const selected = document.querySelector('input[name="reminder_type"]:checked');
 
-                if (selected && selected.value !== "") {
-                    reminderDetails.classList.add("is-visible");
-                    reminderDatetime.required = true;
-                } else {
-                    reminderDetails.classList.remove("is-visible");
-                    reminderDatetime.required = false;
-                }
+    if (selected && selected.value !== "") {
+        reminderDetails.classList.add("is-visible");
+        reminderDatetime.required = true;
+        reminderDatetime.setAttribute("aria-required", "true");
+        if (reminderNote) {
+            reminderNote.setAttribute("aria-required", "false");
+        }
+    } else {
+        reminderDetails.classList.remove("is-visible");
+        reminderDatetime.required = false;
+        reminderDatetime.removeAttribute("aria-required");
+        if (reminderNote) {
+            reminderNote.removeAttribute("aria-required");
+        }
+    }
             }
 
             reminderOptions.forEach(function (option) {
-                option.addEventListener("change", updateReminderFields);
+    option.addEventListener("change", updateReminderFields);
             });
 
             updateReminderFields();

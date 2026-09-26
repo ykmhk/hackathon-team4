@@ -11,7 +11,7 @@
 * { box-sizing: border-box; }
 
 html, body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
 }
 
@@ -30,6 +30,7 @@ body {
 main {
     flex: 1 0 auto;
     display: block;
+    min-height: 0;
 }
 
 img, svg { max-width: 100%; }
@@ -350,6 +351,7 @@ input:focus, textarea:focus {
 }
 
 .site-footer {
+    position: static;
     margin-top: auto;
     border-top: 1px solid var(--grey-light);
     padding: 16px 28px;
@@ -626,7 +628,8 @@ body.record-form-open .add-record-empty-state { display: none; }
 .profile-save-actions { justify-content: flex-start; margin-top: 30px; }
 
 .site-footer {
-    bottom: 0;
+    position: static;
+    bottom: auto;
     border-top: 1px solid var(--grey-light);
     padding: 16px 28px;
     font-size: 0.75rem;
@@ -636,4 +639,5 @@ body.record-form-open .add-record-empty-state { display: none; }
     letter-spacing: 0.02em;
     flex-shrink: 0;
     width: 100%;
+    background: var(--paper);
 }
