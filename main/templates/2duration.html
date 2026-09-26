@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block title %}Duration - AI Symptom Checker{% endblock %}
+
+{% block content %}
+
+<h1>Tell us more about your symptoms</h1>
+
+<p class="subtitle">This helps us understand how your symptoms are progressing.</p>
+
+<form action="/additional" method="POST">
+
+    <h2>How long have you had these symptoms?</h2>
+
+    <label class="option">
+        <input type="radio" name="duration" value="Less than 3 days" required>
+        Less than 3 days
+    </label>
+
+    <label class="option">
+        <input type="radio" name="duration" value="3–7 days">
+        3–7 days
+    </label>
+
+    <label class="option">
+        <input type="radio" name="duration" value="1–4 weeks">
+        1–4 weeks
+    </label>
+
+    <label class="option">
+        <input type="radio" name="duration" value="More than 1 month">
+        More than 1 month
+    </label>
+
+
+    <h2>How are your symptoms changing?</h2>
+
+    <label class="option">
+        <input type="radio" name="progress" value="Getting better" required>
+        Getting better
+    </label>
+
+    <label class="option">
+        <input type="radio" name="progress" value="About the same">
+        About the same
+    </label>
+
+    <label class="option">
+        <input type="radio" name="progress" value="Getting worse">
+        Getting worse
+    </label>
+
+
+    <div class="buttons">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="history.back()">
+            ← Back
+        </button>
+
+        <button type="submit">
+            Continue →
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}

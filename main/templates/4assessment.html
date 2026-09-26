@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}AI Assessment - AI Symptom Checker{% endblock %}
+
+{% block content %}
+
+<h1>AI Assessment</h1>
+
+<p class="subtitle">
+    Here's a summary based on the information you provided.
+</p>
+
+
+<h2>Your Symptom Summary</h2>
+
+<div class="result-card">
+
+    <p><strong>Symptoms:</strong></p>
+
+    <ul>
+        <li>Sore throat</li>
+        <li>Runny nose</li>
+        <li>Headache</li>
+    </ul>
+
+    <p>
+        <strong>Duration:</strong> 3–7 days
+    </p>
+
+    <p>
+        <strong>Symptoms are:</strong> Getting worse
+    </p>
+
+</div>
+
+
+<h2>Possible Conditions</h2>
+
+<div class="result-card">
+
+    <h3>Common Cold</h3>
+
+    <p>
+        Your symptoms may be consistent with a common cold.
+    </p>
+
+</div>
+
+
+<div class="result-card">
+
+    <h3>Seasonal Allergies</h3>
+
+    <p>
+        Some symptoms, particularly a runny nose and itchy eyes,
+        may also be associated with seasonal allergies.
+    </p>
+
+</div>
+
+
+<h2>Recommended Next Step</h2>
+
+<div class="urgency">
+
+    <h3>🟡 Pharmacy</h3>
+
+    <p>
+        Consider speaking with a pharmacist about appropriate
+        symptom relief.
+    </p>
+
+</div>
+
+
+<div class="disclaimer">
+
+    <strong>Important:</strong>
+
+    <p>
+        This tool does not provide a medical diagnosis and is not
+        a substitute for professional medical advice.
+    </p>
+
+</div>
+
+{% endblock %}

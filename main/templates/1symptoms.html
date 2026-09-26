@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}Symptoms - AI Symptom Checker{% endblock %}
+
+{% block content %}
+
+<h1>What symptoms are you experiencing?</h1>
+
+<p class="subtitle">Select all that apply.</p>
+
+<form action="/duration" method="POST">
+
+    <h2>Cold & Flu</h2>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Sore throat">
+        Sore throat
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Runny nose">
+        Runny nose
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Cough">
+        Cough
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Fever">
+        Fever
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Headache">
+        Headache
+    </label>
+
+
+    <h2>Eyes & Allergies</h2>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Itchy eyes">
+        Itchy eyes
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Watery eyes">
+        Watery eyes
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Sneezing">
+        Sneezing
+    </label>
+
+
+    <h2>Digestive</h2>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Stomachache">
+        Stomachache
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Nausea">
+        Nausea
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Diarrhea">
+        Diarrhea
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Vomiting">
+        Vomiting
+    </label>
+
+
+    <h2>General</h2>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Fatigue">
+        Fatigue
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Dizziness">
+        Dizziness
+    </label>
+
+    <label class="option">
+        <input type="checkbox" name="symptoms" value="Muscle aches">
+        Muscle aches
+    </label>
+
+
+    <div class="buttons">
+        <div></div>
+        <button type="submit">Continue →</button>
+    </div>
+
+</form>
+
+{% endblock %}

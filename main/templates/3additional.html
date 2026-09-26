@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Additional Information - AI Symptom Checker{% endblock %}
+
+{% block content %}
+
+<h1>Additional Information</h1>
+
+<p class="subtitle">
+    A little more information can help us understand your symptoms.
+</p>
+
+<form action="/assessment" method="POST">
+
+    <h2>Have you experienced this before?</h2>
+
+    <label class="option">
+        <input type="radio" name="experienced_before" value="Yes" required>
+        Yes
+    </label>
+
+    <label class="option">
+        <input type="radio" name="experienced_before" value="No">
+        No
+    </label>
+
+
+    <h2>Do you have any relevant medical history?</h2>
+
+    <textarea
+        name="medical_history"
+        placeholder="For example, asthma, allergies, or other relevant conditions..."></textarea>
+
+
+    <h2>Does your family have a history of related conditions?</h2>
+
+    <label class="option">
+        <input type="radio" name="family_history" value="Yes" required>
+        Yes
+    </label>
+
+    <label class="option">
+        <input type="radio" name="family_history" value="No">
+        No
+    </label>
+
+    <label class="option">
+        <input type="radio" name="family_history" value="Not sure">
+        Not sure
+    </label>
+
+
+    <h2>Anything else you'd like to tell us?</h2>
+
+    <textarea
+        name="additional_info"
+        placeholder="Tell us anything else that may be relevant..."></textarea>
+
+
+    <div class="buttons">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="history.back()">
+            ← Back
+        </button>
+
+        <button type="submit">
+            Analyse My Symptoms
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}
