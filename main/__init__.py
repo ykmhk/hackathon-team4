@@ -2,7 +2,6 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 
 from main.adapters.memory_repository import MemoryRepository
-from main.adapters.repository_populate import populate_repository
 from main.authentication import authentication_blueprint
 from main.home import home_blueprint
 from main.symptom_checker import symptom_checker
@@ -24,7 +23,6 @@ def create_app(test_config=None):
 
     if app.config.get("REPOSITORY") is None:
         repository = MemoryRepository()
-        populate_repository(repository)
         app.config["REPOSITORY"] = repository
 
     from main.items import items_blueprint
