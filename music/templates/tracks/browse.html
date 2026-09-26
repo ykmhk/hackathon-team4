@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block title %} Browse Tracks {% endblock %}
+
+{% block content %}
+<section class="page-shell">
+    <header class="page-heading">
+        <p class="page-kicker">Music catalogue</p>
+        <h1>Browse Tracks</h1>
+        <p>
+            Showing {{ tracks|length }} tracks in title order.
+        </p>
+    </header>
+
+
+    <section class="track-list"
+             aria-label="Track catalogue">
+        {% if tracks %}
+        {% for track in tracks %}
+        <a class="track-row"
+            href="{{ url_for('tracks.track_detail', track_id=track.track_id) }}"
+            data-track-id="{{ track.track_id }}">
+
+            <!-- Index -->
+            <span class="track-number">
+                {{ "%02d"|format((current_page - 1) * per_page + loop.index) }}
+            </span>
+
+
+                <!-- Album picture placeholder -->
+
+                <div class="track-art">
+    <!--            {% if track.album and track.album.album_image %}-->
+    <!--            <img src="{{ track.album.album_image }}"-->
+    <!--                 alt="Album cover for {{ track.album.title }}">-->
+    <!--            {% endif %}-->
+                    {% if track.album %}
+                        {{ track.album.title[0] }}
+                    {% else %}
+                        ♪
+                    {% endif %}
+                </div>
+
+
+                <!-- Track -->
+                <div class="track-info">
+                    <h2 class="track-title">{{ track.title }}</h2>
+
+                    {% if track.artist %}
+                        <p class="track-artist">{{ track.artist.full_name }}</p>
+                    {% else %}
+                        <p class="track-artist">Unknown Artist</p>
+                    {% endif %}
+                </div>
+
+
+            <!-- Album -->
+            <div class="track-album">
+                {% if track.album %}
+                    {{ track.album.title }}
+                {% else %}
+                    —
+                {% endif %}
+            </div>
+
+
+
+        </a>
+        {% endfor %}
+
+        {% else %}
+            <p class="empty-state">No tracks are currently available.</p>
+        {% endif %}
+
+    </section>
+
+    <nav class="pagination" aria-label="Browse pages">
+        {% if has_previous %}
+            <a class="pagination-link"
+               href="{{ url_for('tracks.browse', page=current_page - 1) }}">
+                ← Previous
+            </a>
+        {% else %}
+            <span class="pagination-link pagination-disabled"
+                  aria-disabled="true">
+                ← Previous
+            </span>
+        {% endif %}
+
+        <span class="pagination-current" aria-current="page">
+            Page {{ current_page }} of {{ total_pages }}
+        </span>
+
+        {% if has_next %}
+            <a class="pagination-link"
+               href="{{ url_for('tracks.browse', page=current_page + 1) }}">
+                Next →
+            </a>
+        {% else %}
+            <span class="pagination-link pagination-disabled"
+                  aria-disabled="true">
+                Next →
+            </span>
+        {% endif %}
+    </nav>
+
+</section>
+
+{% endblock %}
+

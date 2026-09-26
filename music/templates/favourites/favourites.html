@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Favourites
+{% endblock %}
+
+{% block content %}
+
+<section class="favourites-page">
+    <div class="favourites-header">
+        <p class="favourites-label">YOUR COLLECTION</p>
+        <h1>My Favourites</h1>
+        <p class="favourites-subtitle">
+            Your favourite tracks, all in one place.
+        </p>
+    </div>
+{% if not user %}
+
+        <div class="favourites-empty">
+            <h2>Build your own collection.</h2>
+
+            <p>Log in to save your favourite tracks.</p>
+
+            <div class="favourites-auth-actions">
+                <a href="{{ url_for('authentication.login') }}" class="primary-button">
+                    Log In
+                </a>
+
+                <a href="{{ url_for('authentication.register') }}" class="primary-button">
+                    Create an Account →
+                </a>
+            </div>
+        </div>
+
+    {% elif favourites %}
+        <div class="favourites-grid">
+            {% for favourite in favourites %}
+                <a href="{{ url_for('tracks.track_detail', track_id=favourite.track.track_id) }}"
+                   class="favourite-card">
+
+                    <span class="favourite-number">
+                        {{ "%02d"|format(loop.index) }}
+                    </span>
+
+                    <div class="favourite-info">
+                        <h2>{{ favourite.track.title }}</h2>
+
+                        {% if favourite.track.artist %}
+                            <p>{{ favourite.track.artist.full_name }}</p>
+                        {% endif %}
+                    </div>
+
+                    <span class="favourite-arrow">→</span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="favourites-empty">
+            <h2>No favourites yet.</h2>
+            <p>Browse the library and save some tracks you love.</p>
+
+            <a href="{{ url_for('tracks.browse') }}" class="primary-button">
+                Browse Tracks →
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}
