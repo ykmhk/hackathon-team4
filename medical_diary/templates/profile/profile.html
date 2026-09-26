@@ -10,8 +10,16 @@
     {% include "top-bar.html" %}
 
     <section class="profile-page">
-        <h1>{{ user.full_name or user.username }}</h1>
-        <p class="empty-note">@{{ user.username }}</p>
+        <div class="profile-header">
+            <div>
+                <h1>{{ user.full_name or user.username }}</h1>
+                <p class="empty-note">@{{ user.username }}</p>
+            </div>
+            <div class="profile-actions">
+                <a class="btn btn-secondary" href="{{ url_for('records_bp.records') }}">Go back</a>
+                <a class="btn btn-secondary" href="{{ url_for('authentication_bp.logout') }}">Log out</a>
+            </div>
+        </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -78,9 +86,8 @@
                 </div>
             </div>
 
-            <div class="form-actions" style="justify-content: flex-start; margin-top: 30px;">
+            <div class="form-actions profile-save-actions">
                 <button type="submit" class="btn">Save changes</button>
-                <a class="btn btn-secondary" href="{{ url_for('authentication_bp.logout') }}">Log out</a>
             </div>
         </form>
     </section>

@@ -2,8 +2,8 @@ from functools import wraps
 
 from flask import Blueprint, render_template, redirect, url_for, session, request, jsonify, flash
 
+import medical_diary.adapters.repository as repository
 import medical_diary.records.services as services
-from medical_diary.adapters.repository import repo_instance
 
 records_blueprint = Blueprint("records_bp", __name__, url_prefix="/records")
 
@@ -11,9 +11,20 @@ records_blueprint = Blueprint("records_bp", __name__, url_prefix="/records")
 def login_required(view):
     @wraps(view)
     def wrapped(*args, **kwargs):
-        if not session.get("username"):
+        username = session.get("username")
+
+        if not username:
             return redirect(url_for("authentication_bp.login"))
+
+        user = repository.repo_instance.get_user(username)
+
+        if user is None:
+            session.clear()
+            flash("Your session has expired. Please log in again.")
+            return redirect(url_for("authentication_bp.login"))
+
         return view(*args, **kwargs)
+
     return wrapped
 
 
@@ -21,11 +32,11 @@ def login_required(view):
 @login_required
 def records():
     username = session["username"]
-    all_records = services.get_records_for_user(username, repo_instance)
+    all_records = services.get_records_for_user(username, repository.repo_instance)
     selected_id = request.args.get("selected")
     selected = None
     if selected_id:
-        selected = services.get_record(selected_id, username, repo_instance)
+        selected = services.get_record(selected_id, username, repository.repo_instance)
     if selected is None and all_records:
         selected = all_records[0]
 
@@ -48,7 +59,7 @@ def add_record():
 
     try:
         record = services.add_record(username, date, diagnosis, prescription,
-                                      doctor_comments, repo_instance)
+                                      doctor_comments, repository.repo_instance)
         return redirect(url_for("records_bp.records", selected=record.id))
     except services.InvalidRecordException as e:
         flash(str(e))
@@ -61,5 +72,5 @@ def search():
     """JSON endpoint used for live search filtering in the sidebar."""
     username = session["username"]
     keyword = request.args.get("q", "")
-    matches = services.search_records(username, keyword, repo_instance)
+    matches = services.search_records(username, keyword, repository.repo_instance)
     return jsonify([r.to_dict() for r in matches])

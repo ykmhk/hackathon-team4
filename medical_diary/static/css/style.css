@@ -1,10 +1,11 @@
 :root {
     --ink: #111111;
     --paper: #ffffff;
-    --paper-dim: #faf9f6;
-    --line: #111111;
-    --grey: #6b6b6b;
-    --grey-light: #d8d5cd;
+    --paper-dim: #f7f7f5;
+    --line: #161616;
+    --grey: #707070;
+    --grey-light: #dededb;
+    --grey-soft: #eeeeeb;
 }
 
 * { box-sizing: border-box; }
@@ -25,6 +26,8 @@ body {
     min-height: 100vh;
 }
 
+main { flex: 1; }
+img, svg { max-width: 100%; }
 a { color: inherit; }
 
 .mono {
@@ -38,6 +41,8 @@ a { color: inherit; }
     align-items: center;
     justify-content: space-between;
     padding: 18px 28px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .brand {
@@ -79,6 +84,8 @@ a { color: inherit; }
 @media (max-width: 760px) {
     .app-shell { grid-template-columns: 1fr; }
     .sidebar { border-right: none; border-bottom: 1px solid var(--line); }
+    .top-bar { padding: 14px 18px; }
+    .add-record-btn { margin-left: 0; margin-right: 0; }
 }
 
 /* ---------- sidebar ---------- */
@@ -174,12 +181,36 @@ a { color: inherit; }
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 64px 24px;
 }
 
 .form-card {
     width: 100%;
-    max-width: 380px;
+    max-width: 420px;
+}
+
+.auth-card {
+    padding: 36px;
+    border: 1px solid var(--grey-light);
+    background: var(--paper);
+}
+
+.auth-heading {
+    margin-bottom: 28px;
+}
+
+.auth-heading h1 {
+    margin: 4px 0 8px;
+    font-size: 1.7rem;
+}
+
+.eyebrow {
+    margin: 0;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--grey);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .form-card h1 {
@@ -205,25 +236,44 @@ label {
 
 input[type="text"], input[type="password"], input[type="date"], textarea {
     width: 100%;
+    min-height: 44px;
     font: inherit;
     font-size: 0.98rem;
-    padding: 9px 10px;
-    border: 1px solid var(--line);
+    padding: 11px 12px;
+    border: 1px solid var(--grey-light);
     background: var(--paper);
     color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 textarea { resize: vertical; }
-input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+input:hover, textarea:hover { border-color: var(--grey); }
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 1px var(--ink);
+}
 
 .btn {
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-    border: 1px solid var(--line);
+    border: 1px solid var(--ink);
     background: var(--ink);
     color: var(--paper);
-    padding: 10px 20px;
+    padding: 11px 20px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.1s ease;
 }
-.btn:hover { background: #333; }
+.btn:hover { background: #303030; }
+.btn:active { transform: translateY(1px); }
+
+.btn-full {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 6px;
+}
 
 .btn-secondary {
     background: var(--paper);
@@ -236,6 +286,38 @@ input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px
     gap: 10px;
     justify-content: flex-end;
     margin-top: 8px;
+}
+
+.auth-switch {
+    margin: 24px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--grey-light);
+    text-align: center;
+    color: var(--grey);
+    font-size: 0.9rem;
+}
+
+.auth-switch a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.demo-account {
+    margin-top: 22px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border: 1px dashed var(--grey-light);
+    color: var(--grey);
+    font-size: 0.78rem;
+}
+
+.demo-account code {
+    color: var(--ink);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 .helper-link {
@@ -253,6 +335,17 @@ input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px
     margin-bottom: 16px;
 }
 
+.site-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--grey-light);
+    padding: 16px 28px;
+    font-size: 0.75rem;
+    color: var(--grey);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
 /* ---------- add-record panel (inline, toggled by JS) ---------- */
 .add-record-panel {
     border: 1px solid var(--line);
@@ -262,6 +355,8 @@ input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px
     display: none;
 }
 .add-record-panel.open { display: block; }
+body.record-form-open .record-view { display: none; }
+body.record-form-open .add-record-empty-state { display: none; }
 .add-record-panel h2 {
     font-size: 1rem;
     letter-spacing: 0.05em;
@@ -290,8 +385,27 @@ input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px
 .landing .cta { margin-top: 26px; display: flex; gap: 12px; }
 
 /* ---------- profile ---------- */
-.profile-page { padding: 36px 44px; max-width: 640px; }
+.profile-page {
+    flex: 1;
+    width: 100%;
+    max-width: 640px;
+    padding: 36px 44px;
+    margin: 0 auto;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+}
 .profile-page h1 { font-size: 1.3rem; margin-bottom: 6px; }
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
 .profile-section { margin-top: 28px; }
 .profile-section h2 {
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -305,11 +419,15 @@ input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px
 }
 .profile-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.98rem; }
 .profile-row .k { color: var(--grey); min-width: 140px; }
+.profile-save-actions { justify-content: flex-start; margin-top: 30px; }
 
 .site-footer {
+    margin-top: auto;
     border-top: 1px solid var(--grey-light);
-    padding: 14px 28px;
-    font-size: 0.8rem;
+    padding: 16px 28px;
+    font-size: 0.75rem;
     color: var(--grey);
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-align: center;
+    letter-spacing: 0.02em;
 }

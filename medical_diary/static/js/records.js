@@ -39,13 +39,28 @@
     var panel = document.getElementById("add-record-panel");
     var cancelBtn = document.getElementById("cancel-add");
 
+    function setBodyState(open) {
+        document.body.classList.toggle('record-form-open', open);
+    }
+
     function openPanel() {
         if (panel) panel.classList.add("open");
+        setBodyState(true);
     }
     function closePanel() {
         if (panel) panel.classList.remove("open");
+        setBodyState(false);
         if (history.replaceState) {
             history.replaceState(null, "", window.location.pathname + window.location.search);
+        }
+    }
+
+    function syncAddState() {
+        var shouldOpen = window.location.hash === '#add-record' || (window.location.search || '').indexOf('mode=add') !== -1;
+        if (shouldOpen) {
+            openPanel();
+        } else {
+            closePanel();
         }
     }
 
@@ -54,17 +69,23 @@
         link.addEventListener("click", function (event) {
             if (panel) {
                 event.preventDefault();
+                window.location.hash = 'add-record';
                 openPanel();
                 panel.scrollIntoView({ behavior: "smooth", block: "start" });
             }
         });
     });
 
-    if (window.location.hash === "#add-record") {
-        openPanel();
-    }
+    syncAddState();
 
     if (cancelBtn) {
-        cancelBtn.addEventListener("click", closePanel);
+        cancelBtn.addEventListener("click", function () {
+            closePanel();
+            if (window.location.hash === '#add-record') {
+                history.replaceState(null, "", window.location.pathname + window.location.search);
+            }
+        });
     }
+
+    window.addEventListener('hashchange', syncAddState);
 })();

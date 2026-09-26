@@ -40,7 +40,7 @@
                 {% endif %}
             {% endwith %}
 
-            <div class="add-record-panel" id="add-record-panel">
+            <div class="add-record-panel {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}open{% endif %}" id="add-record-panel" {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}style="display:block;"{% endif %}>
                 <h2>new record</h2>
                 <form method="post" action="{{ url_for('records_bp.add_record') }}">
                     <div class="form-row">
@@ -69,7 +69,11 @@
                 </form>
             </div>
 
-            {% if selected %}
+            {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}
+                <div class="record-view add-record-empty-state">
+                    <p class="empty-note">Create your new record above.</p>
+                </div>
+            {% elif selected %}
             <div class="record-view">
                 <h1>medical record</h1>
                 <div class="field">
