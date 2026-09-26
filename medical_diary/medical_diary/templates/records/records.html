@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medical History Diary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include "top-bar.html" %}
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <input type="text" class="search-input" id="search-input"
+                   placeholder="Search records...">
+
+            <ul class="record-list" id="record-list">
+                {% for r in records %}
+                <li data-date="{{ r.date }}" data-diagnosis="{{ r.diagnosis|lower }}"
+                    data-prescription="{{ r.prescription|lower }}" data-comments="{{ r.doctor_comments|lower }}">
+                    <a href="{{ url_for('records_bp.records', selected=r.id) }}"
+                       class="{{ 'selected' if selected and selected.id == r.id else '' }}">
+                        {{ r.date }}
+                    </a>
+                </li>
+                {% else %}
+                <li class="empty-note">No records yet.</li>
+                {% endfor %}
+            </ul>
+
+            <p class="empty-note" id="no-results" style="display:none;">No matching records.</p>
+        </aside>
+
+        <main>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash" style="margin:22px 44px 0;">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="add-record-panel" id="add-record-panel">
+                <h2>new record</h2>
+                <form method="post" action="{{ url_for('records_bp.add_record') }}">
+                    <div class="form-row">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="diagnosis">Diagnosis</label>
+                        <input type="text" id="diagnosis" name="diagnosis"
+                               placeholder="Seasonal allergic rhinitis" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="prescription">Prescription</label>
+                        <input type="text" id="prescription" name="prescription"
+                               placeholder="Cetirizine 10 mg once daily">
+                    </div>
+                    <div class="form-row">
+                        <label for="doctor_comments">Doctor's Additional Comments</label>
+                        <textarea id="doctor_comments" name="doctor_comments" rows="5"
+                                  placeholder="Symptoms should improve within several days..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-add">Cancel</button>
+                        <button type="submit" class="btn">Save Record</button>
+                    </div>
+                </form>
+            </div>
+
+            {% if selected %}
+            <div class="record-view">
+                <h1>medical record</h1>
+                <div class="field">
+                    <div class="field-label">date</div>
+                    <div class="field-value">{{ selected.date }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">diagnosis</div>
+                    <div class="field-value diagnosis">{{ selected.diagnosis }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">prescription</div>
+                    <div class="field-value prescription">{{ selected.prescription }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">doctor's additional comments</div>
+                    <div class="field-value comments">{{ selected.doctor_comments }}</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="record-view">
+                <p class="empty-note">Click "+ Add New Record" above to start your history.</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+
+    {% include "footer.html" %}
+
+    <script src="{{ url_for('static', filename='js/records.js') }}"></script>
+</body>
+</html>

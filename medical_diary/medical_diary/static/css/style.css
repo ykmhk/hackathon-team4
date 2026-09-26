@@ -1,0 +1,315 @@
+:root {
+    --ink: #111111;
+    --paper: #ffffff;
+    --paper-dim: #faf9f6;
+    --line: #111111;
+    --grey: #6b6b6b;
+    --grey-light: #d8d5cd;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 16px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a { color: inherit; }
+
+.mono {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+/* ---------- top bar ---------- */
+.top-bar {
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+}
+
+.brand {
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.add-record-btn {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 8px 16px;
+    margin-left: auto;
+    margin-right: 16px;
+    transition: background 0.15s ease;
+}
+.add-record-btn:hover { background: var(--paper-dim); }
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+}
+.profile-icon { font-size: 1.1rem; }
+
+/* ---------- layout ---------- */
+.app-shell {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 0;
+}
+
+@media (max-width: 760px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid var(--line); }
+}
+
+/* ---------- sidebar ---------- */
+.sidebar {
+    border-right: 1px solid var(--line);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-input {
+    width: 100%;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: 6px 2px 10px;
+    background: transparent;
+    color: var(--ink);
+}
+.search-input:focus { outline: none; border-bottom: 2px solid var(--ink); }
+.search-input::placeholder { color: var(--grey); }
+
+.record-list {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    overflow-y: auto;
+}
+
+.record-list li a {
+    display: block;
+    text-decoration: none;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+    color: var(--ink);
+    padding: 9px 10px;
+    margin-bottom: 2px;
+    border-left: 2px solid transparent;
+}
+
+.record-list li a:hover { background: var(--paper-dim); }
+
+.record-list li a.selected {
+    border-left: 2px solid var(--ink);
+    background: var(--paper-dim);
+    font-weight: 600;
+}
+
+.empty-note {
+    color: var(--grey);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.9rem;
+    margin-top: 20px;
+}
+
+/* ---------- record view ---------- */
+.record-view {
+    padding: 32px 44px;
+    max-width: 640px;
+}
+
+.record-view h1 {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--grey);
+    font-weight: 400;
+    margin: 0 0 28px;
+}
+
+.field {
+    margin-bottom: 24px;
+    border-top: 1px solid var(--grey-light);
+    padding-top: 10px;
+}
+.field:first-of-type { border-top: none; padding-top: 0; }
+
+.field-label {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--grey);
+    text-transform: lowercase;
+    margin-bottom: 4px;
+}
+
+.field-value { font-size: 1.05rem; }
+.field-value.diagnosis, .field-value.prescription { font-weight: 600; }
+.field-value.comments { white-space: pre-wrap; color: #2a2a2a; }
+
+/* ---------- forms (login/register/add record) ---------- */
+.form-page {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 380px;
+}
+
+.form-card h1 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+.form-card p.sub {
+    color: var(--grey);
+    font-size: 0.92rem;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.form-row { margin-bottom: 16px; }
+
+label {
+    display: block;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin-bottom: 6px;
+}
+
+input[type="text"], input[type="password"], input[type="date"], textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 0.98rem;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+}
+textarea { resize: vertical; }
+input:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+.btn {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    border: 1px solid var(--line);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.btn:hover { background: #333; }
+
+.btn-secondary {
+    background: var(--paper);
+    color: var(--ink);
+}
+.btn-secondary:hover { background: var(--paper-dim); }
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.helper-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: var(--grey);
+}
+
+.flash {
+    border: 1px solid var(--line);
+    background: var(--paper-dim);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+/* ---------- add-record panel (inline, toggled by JS) ---------- */
+.add-record-panel {
+    border: 1px solid var(--line);
+    padding: 26px 30px;
+    margin: 0 auto 30px;
+    max-width: 560px;
+    display: none;
+}
+.add-record-panel.open { display: block; }
+.add-record-panel h2 {
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    color: var(--grey);
+    font-weight: 400;
+    margin-top: 0;
+}
+.add-record-panel textarea { min-height: 120px; }
+
+/* ---------- home / landing ---------- */
+.landing {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: left;
+}
+.landing-inner { max-width: 520px; }
+.landing h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+.landing p { color: #2a2a2a; }
+.landing .cta { margin-top: 26px; display: flex; gap: 12px; }
+
+/* ---------- profile ---------- */
+.profile-page { padding: 36px 44px; max-width: 640px; }
+.profile-page h1 { font-size: 1.3rem; margin-bottom: 6px; }
+.profile-section { margin-top: 28px; }
+.profile-section h2 {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--grey);
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--grey-light);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+.profile-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.98rem; }
+.profile-row .k { color: var(--grey); min-width: 140px; }
+
+.site-footer {
+    border-top: 1px solid var(--grey-light);
+    padding: 14px 28px;
+    font-size: 0.8rem;
+    color: var(--grey);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}

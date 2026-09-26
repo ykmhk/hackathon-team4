@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register &mdash; Medical History Diary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include "top-bar.html" %}
+
+    <section class="form-page">
+        <div class="form-card">
+            <h1>Create an account</h1>
+            <p class="sub">Your history stays private to your account.</p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="post" action="{{ url_for('authentication_bp.register') }}">
+                <div class="form-row">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autofocus>
+                </div>
+                <div class="form-row">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Register</button>
+                </div>
+            </form>
+
+            <a class="helper-link" href="{{ url_for('authentication_bp.login') }}">Already have an account? Log in</a>
+        </div>
+    </section>
+
+    {% include "footer.html" %}
+</body>
+</html>
