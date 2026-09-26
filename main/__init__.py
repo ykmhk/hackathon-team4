@@ -2,8 +2,6 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 
 from main.adapters.memory_repository import MemoryRepository
-from main.adapters.repository_populate import populate_repository
-from main.authentication import authentication_blueprint
 from main.home import home_blueprint
 from main.symptom_checker import symptom_checker
 from dotenv import load_dotenv
@@ -23,14 +21,11 @@ def create_app(test_config=None):
     csrf.init_app(app)
 
     if app.config.get("REPOSITORY") is None:
-        repository = MemoryRepository()
-        populate_repository(repository)
-        app.config["REPOSITORY"] = repository
+        app.config["REPOSITORY"] = MemoryRepository()
 
     from main.items import items_blueprint
 
     app.register_blueprint(home_blueprint)
     app.register_blueprint(items_blueprint)
-    app.register_blueprint(authentication_blueprint)
     app.register_blueprint(symptom_checker)
     return app

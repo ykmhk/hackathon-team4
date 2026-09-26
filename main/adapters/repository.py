@@ -1,24 +1,9 @@
-"""Abstract repository contract for a simple starter app."""
+"""Abstract repository contract for the symptom checker."""
 
-from abc import ABC, abstractmethod
-
-from main.domainmodel.user import User
+from abc import ABC
 
 
 class AbstractRepository(ABC):
-    """Define the generic storage contract used by the starter app."""
+    """Define the storage contract for the symptom checker."""
 
-    @abstractmethod
-    def add_user(self, user: User) -> None:
-        """Store one User under their normalized username."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_user(self, user_name: str) -> User | None:
-        """Return a User by username, or None when no such User is stored."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_number_of_users(self) -> int:
-        """Return the number of stored Users."""
-        raise NotImplementedError
+    pass

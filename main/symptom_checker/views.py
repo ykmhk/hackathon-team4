@@ -1,42 +1,49 @@
-class User:
+from flask import render_template, request, redirect, url_for, session
 
-    def __init__(self, user_id: int, user_name: str, password: str):
-        if type(user_id) is not int or user_id < 0:
-            raise ValueError("User ID should be a non negative integer.")
-        self.__user_id = user_id
+from . import symptom_checker
 
-        if type(user_name) is not str or user_name.strip() == '':
-            raise ValueError("User name should be a non-empty string.")
-        self.__user_name = user_name.lower().strip()
 
-        if not isinstance(password, str) or len(password) < 7:
-            raise ValueError("Password should be a string of at least 7 characters.")
-        self.__password = password
+@symptom_checker.route('/symptoms', methods=['GET', 'POST'])
+def symptoms():
+    if request.method == 'POST':
+        session['symptoms'] = request.form.getlist('symptoms')
+        return redirect(url_for('symptom_checker.duration'))
 
-    @property
-    def user_id(self) -> int:
-        return self.__user_id
+    return render_template('symptom_checker/symptoms.html')
 
-    @property
-    def user_name(self) -> str:
-        return self.__user_name
 
-    @property
-    def password(self) -> str:
-        return self.__password
+@symptom_checker.route('/duration', methods=['GET', 'POST'])
+def duration():
+    if request.method == 'POST':
+        session['duration'] = request.form.get('duration')
+        session['progress'] = request.form.get('progress')
+        session['onset'] = request.form.get('onset')
 
-    def __repr__(self):
-        return f'<User {self.user_name}, user id = {self.user_id}>'
+        return redirect(url_for('symptom_checker.information'))
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, User):
-            return False
-        return self.user_id == other.user_id
+    return render_template('symptom_checker/duration.html')
 
-    def __lt__(self, other):
-        if not isinstance(other, self.__class__):
-            return True
-        return self.user_id < other.user_id
 
-    def __hash__(self):
-        return hash(self.user_id)
+@symptom_checker.route('/information', methods=['GET', 'POST'])
+def information():
+    if request.method == 'POST':
+        session['previous_experience'] = (
+            request.form.get('previous_experience')
+        )
+        session['medications'] = request.form.get('medications')
+        session['medical_conditions'] = (
+            request.form.get('medical_conditions')
+        )
+        session['family_history'] = request.form.get('family_history')
+        session['additional_information'] = (
+            request.form.get('additional_information')
+        )
+
+        return redirect(url_for('symptom_checker.assessment'))
+
+    return render_template('symptom_checker/information.html')
+
+
+@symptom_checker.route('/assessment')
+def assessment():
+    return render_template('symptom_checker/assessment.html')
