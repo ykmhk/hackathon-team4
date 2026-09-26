@@ -1,3 +1,4 @@
+from datetime import datetime
 from functools import wraps
 
 from flask import Blueprint, render_template, redirect, url_for, session, request, jsonify, flash
@@ -40,11 +41,16 @@ def records():
     if selected is None and all_records:
         selected = all_records[0]
 
+    upcoming_reminders = services.get_upcoming_reminders(all_records)
+    alert_reminders = services.get_alert_reminders(all_records)
+
     return render_template(
         "records/records.html",
         records=all_records,
         selected=selected,
         records_json=[r.to_dict() for r in all_records],
+        upcoming_reminders=upcoming_reminders,
+        alert_reminders=alert_reminders,
     )
 
 
@@ -56,10 +62,30 @@ def add_record():
     diagnosis = request.form.get("diagnosis", "").strip()
     prescription = request.form.get("prescription", "").strip()
     doctor_comments = request.form.get("doctor_comments", "").strip()
+    reminder_type = request.form.get("reminder_type", "").strip()
+    reminder_datetime = request.form.get("reminder_datetime", "").strip()
+    reminder_note = request.form.get("reminder_note", "").strip()
+
+    if reminder_datetime:
+        try:
+            reminder_datetime = datetime.fromisoformat(reminder_datetime)
+        except ValueError:
+            reminder_datetime = None
+    else:
+        reminder_datetime = None
 
     try:
-        record = services.add_record(username, date, diagnosis, prescription,
-                                      doctor_comments, repository.repo_instance)
+        record = services.add_record(
+            username,
+            date,
+            diagnosis,
+            prescription,
+            doctor_comments,
+            repository.repo_instance,
+            reminder_type=reminder_type,
+            reminder_datetime=reminder_datetime,
+            reminder_note=reminder_note,
+        )
         return redirect(url_for("records_bp.records", selected=record.id))
     except services.InvalidRecordException as e:
         flash(str(e))

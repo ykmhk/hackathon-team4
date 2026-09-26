@@ -40,6 +40,20 @@
                 {% endif %}
             {% endwith %}
 
+            {% if alert_reminders %}
+            <div class="reminder-alerts">
+                {% for record in alert_reminders %}
+                <div class="reminder-alert">
+                    <div>
+                        <span class="reminder-label">{{ record.reminder_type|title or 'Reminder' }}</span>
+                        <strong>{{ record.reminder_note or 'Reminder set' }}</strong>
+                    </div>
+                    <div class="reminder-time">{{ record.reminder_datetime.strftime('%d %b · %I:%M %p') }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <div class="add-record-panel {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}open{% endif %}" id="add-record-panel" {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}style="display:block;"{% endif %}>
                 <h2>new record</h2>
                 <form method="post" action="{{ url_for('records_bp.add_record') }}">
@@ -62,6 +76,34 @@
                         <textarea id="doctor_comments" name="doctor_comments" rows="5"
                                   placeholder="Symptoms should improve within several days..."></textarea>
                     </div>
+
+                    <div class="reminder-section">
+                        <div class="section-heading">
+                            <h3>Reminder</h3>
+                            <span class="optional-label">Optional</span>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="reminder_type">Reminder type</label>
+                            <select id="reminder_type" name="reminder_type">
+                                <option value="">No reminder</option>
+                                <option value="appointment">Next appointment</option>
+                                <option value="medication">Medication</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="reminder_datetime">Date &amp; time</label>
+                            <input type="datetime-local" id="reminder_datetime" name="reminder_datetime">
+                        </div>
+
+                        <div class="form-row">
+                            <label for="reminder_note">Reminder note</label>
+                            <input type="text" id="reminder_note" name="reminder_note" placeholder="e.g. Follow-up with GP">
+                        </div>
+                    </div>
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="cancel-add">Cancel</button>
                         <button type="submit" class="btn">Save Record</button>
@@ -92,6 +134,22 @@
                     <div class="field-label">doctor's additional comments</div>
                     <div class="field-value comments">{{ selected.doctor_comments }}</div>
                 </div>
+
+                {% if selected.reminder_datetime %}
+                <div class="field">
+                    <div class="field-label">reminder</div>
+                    <div class="field-value comments">
+                        {% if selected.reminder_type %}
+                            {{ selected.reminder_type|title }}
+                        {% endif %}
+                        {% if selected.reminder_note %}
+                            - {{ selected.reminder_note }}
+                        {% endif %}
+                        <br>
+                        {{ selected.reminder_datetime.strftime('%d %b %Y · %I:%M %p') }}
+                    </div>
+                </div>
+                {% endif %}
             </div>
             {% else %}
             <div class="record-view">

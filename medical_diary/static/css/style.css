@@ -24,9 +24,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
-main { flex: 1; }
+main {
+    flex: 1 0 auto;
+    display: block;
+}
+
 img, svg { max-width: 100%; }
 a { color: inherit; }
 
@@ -177,7 +182,7 @@ a { color: inherit; }
 
 /* ---------- forms (login/register/add record) ---------- */
 .form-page {
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -344,6 +349,75 @@ input:focus, textarea:focus {
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
     text-align: center;
     letter-spacing: 0.02em;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.reminder-alerts {
+    max-width: 760px;
+    margin: 22px 44px 0;
+    display: grid;
+    gap: 12px;
+}
+
+.reminder-alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+}
+
+.reminder-label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--grey);
+}
+
+.reminder-time {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.reminder-section {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--grey-light);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.section-heading h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.optional-label {
+    font-size: 0.75rem;
+    color: var(--grey);
+}
+
+select {
+    width: 100%;
+    min-height: 44px;
+    font: inherit;
+    font-size: 0.98rem;
+    padding: 11px 12px;
+    border: 1px solid var(--grey-light);
+    background: var(--paper);
+    color: var(--ink);
 }
 
 /* ---------- add-record panel (inline, toggled by JS) ---------- */
@@ -422,7 +496,7 @@ body.record-form-open .add-record-empty-state { display: none; }
 .profile-save-actions { justify-content: flex-start; margin-top: 30px; }
 
 .site-footer {
-    margin-top: auto;
+    bottom: 0;
     border-top: 1px solid var(--grey-light);
     padding: 16px 28px;
     font-size: 0.75rem;
@@ -430,4 +504,6 @@ body.record-form-open .add-record-empty-state { display: none; }
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
     text-align: center;
     letter-spacing: 0.02em;
+    flex-shrink: 0;
+    width: 100%;
 }
