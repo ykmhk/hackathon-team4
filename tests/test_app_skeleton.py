@@ -1,19 +1,7 @@
-from dotenv import load_dotenv
-from openai import OpenAI
-import os
+from main import create_app
 
 
-load_dotenv()
-
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-
-
-response = client.responses.create(
-    model="gpt-6-luna",
-    input="Say hello in one sentence."
-)
-
-
-print(response.output_text)
+def test_app_factory_builds():
+    app = create_app({"TESTING": True})
+    assert app is not None
+    assert app.config["TESTING"] is True

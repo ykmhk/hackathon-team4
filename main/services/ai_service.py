@@ -4,12 +4,15 @@ import os
 from openai import OpenAI
 
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+_client = None
+api_key = os.getenv("OPENAI_API_KEY")
+if api_key:
+    _client = OpenAI(api_key=api_key)
 
 
 def analyse_symptoms(assessment):
+    if _client is None:
+        raise RuntimeError("OPENAI_API_KEY is not configured.")
 
     prompt = f"""
 You are a cautious health information assistant.
@@ -70,15 +73,12 @@ Return ONLY valid JSON using this structure:
 }}
 """
 
-    response = client.responses.create(
-        model="gpt-6-luna",
-        input=prompt
+    response = _client.responses.create(
+        model="gpt-4o-mini",
+        input=prompt,
     )
 
     try:
         return json.loads(response.output_text)
-
-    except json.JSONDecodeError:
-        raise ValueError(
-            "The AI returned an invalid response."
-        )
+    except json.JSONDecodeError as exc:
+        raise ValueError("The AI returned an invalid response.") from exc

@@ -7,7 +7,6 @@ from main.authentication.decorators import login_required
 from main.authentication.forms import LoginForm, RegistrationForm
 
 
-
 @authentication_blueprint.route("/register", methods=["GET", "POST"])
 def register():
     """Display the registration form and create a new account when submitted."""
@@ -29,7 +28,6 @@ def register():
             return redirect(url_for("authentication.login"))
 
     return render_template("authentication/register.html", form=form)
-
 
 
 @authentication_blueprint.route("/login", methods=["GET", "POST"])
@@ -55,6 +53,7 @@ def login():
             return redirect(url_for("home.home"))
 
     return render_template("authentication/login.html", form=form)
+
 
 @authentication_blueprint.post("/logout")
 @login_required
