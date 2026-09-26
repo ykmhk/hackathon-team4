@@ -57,51 +57,93 @@
             <div class="add-record-panel {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}open{% endif %}" id="add-record-panel" {% if request.args.get('mode') == 'add' or request.args.get('selected') == 'new' %}style="display:block;"{% endif %}>
                 <h2>new record</h2>
                 <form method="post" action="{{ url_for('records_bp.add_record') }}">
-                    <div class="form-row">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="diagnosis">Diagnosis</label>
-                        <input type="text" id="diagnosis" name="diagnosis"
-                               placeholder="Seasonal allergic rhinitis" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="prescription">Prescription</label>
-                        <input type="text" id="prescription" name="prescription"
-                               placeholder="Cetirizine 10 mg once daily">
-                    </div>
-                    <div class="form-row">
-                        <label for="doctor_comments">Doctor's Additional Comments</label>
-                        <textarea id="doctor_comments" name="doctor_comments" rows="5"
-                                  placeholder="Symptoms should improve within several days..."></textarea>
-                    </div>
-
-                    <div class="reminder-section">
-                        <div class="section-heading">
-                            <h3>Reminder</h3>
-                            <span class="optional-label">Optional</span>
+                    <div class="record-form-layout">
+                        <div class="record-main-fields">
+                            <div class="form-row">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="diagnosis">Diagnosis</label>
+                                <input type="text" id="diagnosis" name="diagnosis"
+                                       placeholder="Seasonal allergic rhinitis" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="prescription">Prescription</label>
+                                <input type="text" id="prescription" name="prescription"
+                                       placeholder="Cetirizine 10 mg once daily">
+                            </div>
+                            <div class="form-row">
+                                <label for="doctor_comments">Doctor's Additional Comments</label>
+                                <textarea id="doctor_comments" name="doctor_comments" rows="5"
+                                          placeholder="Symptoms should improve within several days..."></textarea>
+                            </div>
                         </div>
 
-                        <div class="form-row">
-                            <label for="reminder_type">Reminder type</label>
-                            <select id="reminder_type" name="reminder_type">
-                                <option value="">No reminder</option>
-                                <option value="appointment">Next appointment</option>
-                                <option value="medication">Medication</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
+                        <aside class="record-reminder-panel">
+                            <div class="reminder-section">
+                                <div class="reminder-header">
+                                    <div class="reminder-title-row">
+                                        <span class="optional-badge">Optional</span>
+                                        <h3>Reminder</h3>
+                                    </div>
+                                    <p class="reminder-description">
+                                        Get a reminder for your next appointment, medication, or follow-up.
+                                    </p>
+                                </div>
 
-                        <div class="form-row">
-                            <label for="reminder_datetime">Date &amp; time</label>
-                            <input type="datetime-local" id="reminder_datetime" name="reminder_datetime">
-                        </div>
+                                <div class="reminder-type-group">
+                                    <label class="field-label">Set a reminder</label>
 
-                        <div class="form-row">
-                            <label for="reminder_note">Reminder note</label>
-                            <input type="text" id="reminder_note" name="reminder_note" placeholder="e.g. Follow-up with GP">
-                        </div>
+                                    <div class="reminder-options">
+                                        <label class="reminder-option">
+                                            <input type="radio" name="reminder_type" value="" checked>
+                                            <span class="reminder-option-content">
+                                                <strong>None</strong>
+                                                <small>No reminder</small>
+                                            </span>
+                                        </label>
+
+                                        <label class="reminder-option">
+                                            <input type="radio" name="reminder_type" value="appointment">
+                                            <span class="reminder-option-content">
+                                                <strong>Appointment</strong>
+                                                <small>Doctor, test, or check-up</small>
+                                            </span>
+                                        </label>
+
+                                        <label class="reminder-option">
+                                            <input type="radio" name="reminder_type" value="medication">
+                                            <span class="reminder-option-content">
+                                                <strong>Medication</strong>
+                                                <small>Medicine time</small>
+                                            </span>
+                                        </label>
+
+                                        <label class="reminder-option">
+                                            <input type="radio" name="reminder_type" value="other">
+                                            <span class="reminder-option-content">
+                                                <strong>Other</strong>
+                                                <small>Any follow-up</small>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div id="reminder-details" class="reminder-details">
+                                    <div class="form-row">
+                                        <label for="reminder_datetime">When should we remind you?</label>
+                                        <input type="datetime-local" id="reminder_datetime" name="reminder_datetime">
+                                    </div>
+
+                                    <div class="form-row">
+                                        <label for="reminder_note">What is this reminder for?</label>
+                                        <input type="text" id="reminder_note" name="reminder_note" maxlength="120" placeholder="e.g. Follow-up with GP">
+                                        <p class="field-hint">Keep it short so it is easy to recognise later.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
                     </div>
 
                     <div class="form-actions">
@@ -161,6 +203,31 @@
 
     {% include "footer.html" %}
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reminderOptions = document.querySelectorAll('input[name="reminder_type"]');
+            const reminderDetails = document.getElementById("reminder-details");
+            const reminderDatetime = document.getElementById("reminder_datetime");
+
+            function updateReminderFields() {
+                const selected = document.querySelector('input[name="reminder_type"]:checked');
+
+                if (selected && selected.value !== "") {
+                    reminderDetails.classList.add("is-visible");
+                    reminderDatetime.required = true;
+                } else {
+                    reminderDetails.classList.remove("is-visible");
+                    reminderDatetime.required = false;
+                }
+            }
+
+            reminderOptions.forEach(function (option) {
+                option.addEventListener("change", updateReminderFields);
+            });
+
+            updateReminderFields();
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/records.js') }}"></script>
 </body>
 </html>

@@ -91,6 +91,14 @@ a { color: inherit; }
     .sidebar { border-right: none; border-bottom: 1px solid var(--line); }
     .top-bar { padding: 14px 18px; }
     .add-record-btn { margin-left: 0; margin-right: 0; }
+    .form-page { padding: 20px 16px 48px; }
+    .form-card { padding: 20px; }
+    .record-form-layout { grid-template-columns: 1fr; }
+    .reminder-section { padding: 18px; }
+    .reminder-options { grid-template-columns: 1fr; }
+    .form-actions { flex-direction: column-reverse; }
+    .form-actions .btn { width: 100%; text-align: center; }
+    .site-footer { padding: 14px 16px; }
 }
 
 /* ---------- sidebar ---------- */
@@ -186,7 +194,8 @@ a { color: inherit; }
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 64px 24px;
+    width: 100%;
+    padding: 32px 24px 64px;
 }
 
 .form-card {
@@ -351,6 +360,7 @@ input:focus, textarea:focus {
     letter-spacing: 0.02em;
     flex-shrink: 0;
     width: 100%;
+    background: var(--paper);
 }
 
 .reminder-alerts {
@@ -388,25 +398,145 @@ input:focus, textarea:focus {
 
 .reminder-section {
     margin-top: 32px;
-    padding-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--grey-light);
+    background: var(--paper-dim);
+}
+
+.reminder-header {
+    display: block;
+    margin-bottom: 22px;
+}
+
+.reminder-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.reminder-title-row h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.optional-badge {
+    padding: 3px 7px;
+    border: 1px solid var(--grey-light);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.65rem;
+    color: var(--grey);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0;
+}
+
+.reminder-description {
+    max-width: 480px;
+    margin: 8px 0 0;
+    color: var(--grey);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.record-form-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.record-main-fields {
+    min-width: 0;
+}
+
+.record-reminder-panel {
+    min-width: 0;
+}
+
+.reminder-type-group {
+    margin-top: 20px;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.reminder-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.reminder-option {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+.reminder-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.reminder-option-content {
+    min-height: 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 14px;
+    border: 1px solid var(--grey-light);
+    background: var(--paper);
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.reminder-option-content strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-size: 0.88rem;
+}
+
+.reminder-option-content small {
+    color: var(--grey);
+    font-size: 0.75rem;
+}
+
+.reminder-option:hover .reminder-option-content {
+    border-color: var(--grey);
+}
+
+.reminder-option input:checked + .reminder-option-content {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.reminder-option input:checked + .reminder-option-content strong,
+.reminder-option input:checked + .reminder-option-content small {
+    color: var(--paper);
+}
+
+.reminder-details {
+    display: none;
+    margin-top: 22px;
+    padding-top: 22px;
     border-top: 1px solid var(--grey-light);
 }
 
-.section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
+.reminder-details.is-visible {
+    display: block;
 }
 
-.section-heading h3 {
-    margin: 0;
-    font-size: 1rem;
-}
-
-.optional-label {
-    font-size: 0.75rem;
+.field-hint {
+    margin: 6px 0 0;
     color: var(--grey);
+    font-size: 0.72rem;
 }
 
 select {
